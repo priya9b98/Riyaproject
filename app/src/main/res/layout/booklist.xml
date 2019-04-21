@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/bookpic"
+        android:layout_width="93dp"
+        android:layout_height="89dp"
+        android:src="@mipmap/ic_launcher" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="book_name"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/bookname"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="24sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="rating"
+        android:id="@+id/bookr"
+        app:layout_constraintTop_toBottomOf="@+id/bookname"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="author"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/bookaut"
+        android:textColor="#000"
+
+        app:layout_constraintTop_toBottomOf="@+id/bookr"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="year"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/booka"
+        android:textColor="#000"
+        app:layout_constraintTop_toBottomOf="@+id/bookaut"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic"/>
+
+
+</android.support.constraint.ConstraintLayout>
