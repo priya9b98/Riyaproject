@@ -27,7 +27,8 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".List_of_booksActivity" />
         <activity android:name=".BookpurchaseActivity" />
-        <activity android:name=".BorrowActivity"></activity>
+        <activity android:name=".BorrowActivity" />
+        <activity android:name=".Testingb"></activity>
     </application>
 
 </manifest>

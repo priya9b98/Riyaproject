@@ -1,6 +1,7 @@
 package com.example.priya.riyaproject;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,9 +21,13 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpr
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Thread.sleep;
 
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -32,6 +37,10 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     Double userid;
     DynamoDBMapper dynamoDBMapper;
     ImageView rat;
+    int k=0;
+    public List<Books> list;
+    Bundle bundle;
+    TextView user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +69,12 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         spin1.setOnItemSelectedListener(this);
         searchView=findViewById(R.id.searchvi);
         rat=findViewById(R.id.rating);
+        user=findViewById(R.id.testing2);
         Intent r=getIntent();
+        list=new ArrayList<>();
+        list=null;
          userid=r.getDoubleExtra("userid",0);
+         user.setText(userid.toString());
         searchView.setQueryHint("find books");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -129,6 +142,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                             b.putDouble("userid",userid);
                             b.putDouble("bid",list1.get(0).getISBN());
                             intent1.putExtra("bund",b);
+
                             startActivity(intent1);
                         }
 
@@ -170,8 +184,21 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","1940");
             i.putExtra("year2","1920");
             i.putExtra("userid",userid);
+           /* try {
+                FindBookwithSpecifiedattribute(dynamoDBMapper,"1940","1920");
+              while(list==null) {k++;}
+                    Bundle args = new Bundle();
+                    args.putSerializable("ARRAYLIST", (Serializable) list);
+                    i.putExtra("BUNDLE", args);
+                    startActivity(i);
 
-            startActivity(i);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }*/
+
+
+           startActivity(i);
 
 
         }
@@ -236,5 +263,32 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
+    /*private void FindBookwithSpecifiedattribute(final DynamoDBMapper dynamoDBMapper, String year1,String year2) throws  Exception {
+        Map<String, AttributeValue> ev=new HashMap<>();
+        ev.put(":val1", new AttributeValue().withS(year1));
+        ev.put(":val2",new AttributeValue().withS(year2));
+
+        final DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("PublicationYear between :val2 and :val1").withExpressionAttributeValues(ev);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                List<Books> list1=dynamoDBMapper.scan(Books.class,scanExpression);
+                list=list1;
+
+
+
+            }
+        }).start();
+
+
+
+
+
+    }*/
 }
 

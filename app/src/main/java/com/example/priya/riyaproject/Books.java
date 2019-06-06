@@ -8,16 +8,18 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRan
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @DynamoDBTable(tableName = "hungrymind-mobilehub-593518188-Books")
 
-public class Books {
+public class Books implements Serializable {
     private Double _iSBN;
     private String _author;
     private String _bookName;
+    private String _genre;
     private String _imageUrl;
     private String _price;
     private String _publicationYear;
@@ -47,6 +49,14 @@ public class Books {
 
     public void setBookName(final String _bookName) {
         this._bookName = _bookName;
+    }
+    @DynamoDBAttribute(attributeName = "Genre")
+    public String getGenre() {
+        return _genre;
+    }
+
+    public void setGenre(final String _genre) {
+        this._genre = _genre;
     }
     @DynamoDBAttribute(attributeName = "ImageUrl")
     public String getImageUrl() {

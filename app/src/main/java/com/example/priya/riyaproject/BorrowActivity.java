@@ -70,14 +70,16 @@ public class BorrowActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Borrowl item=new Borrowl();
+                final Borrow item=new Borrow();
                 item.setDateClaimToRet(returndate);
                 item.setDateOfBorrow(borrowdate);
-                item.setSupplierID("0");
-                item.setCustID(Double.toString(userid));
-                item.setBookID(Integer.toString(integer));
+                item.setSupplierID("1");
+                item.setActualRetDate("null");
+                item.setCustID(userid);
+                item.setBookID(bookid);
+                item.setRating("0");
                 String h=Double.toString(userid).concat(Integer.toString(integer));
-                item.setBorrowID(h);
+                item.setBorrowId(Double.parseDouble(h));
 
                 new Thread(new Runnable() {
                     @Override

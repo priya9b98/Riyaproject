@@ -1,6 +1,9 @@
 package com.example.priya.riyaproject;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,9 +25,13 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button books,store;
+  //  Button books,store;
+  BottomNavigationView btm;
+    Homefragment homefragment;
+    Historyfragment historyfragment;
     TextView name;
-    DynamoDBMapper dynamoDBMapper;
+    //DynamoDBMapper dynamoDBMapper;
+    Double userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +42,34 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setTitle("HungryMinds");
         Intent inty=getIntent();
         String name1=inty.getStringExtra("name");
-        final Double userid=inty.getDoubleExtra("userid",0);
+        userid=inty.getDoubleExtra("userid",0);
         name=(TextView)findViewById(R.id.profile_name);
         name.setText(name1);
+        btm = findViewById(R.id.navigation);
+        homefragment = new Homefragment();
+        historyfragment = new Historyfragment();
 
-        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+        initializeFragment();
+
+        btm.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            Fragment ft=getSupportFragmentManager().findFragmentById(R.id.fragment);
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.history:
+                        replacefragment(historyfragment,ft);
+                        return true;
+                    case  R.id.home:
+                        replacefragment(homefragment,ft);
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+
+   /*     AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
             @Override
             public void onComplete(AWSStartupResult awsStartupResult) {
                 AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient(AWSMobileClient.getInstance().getCredentialsProvider());
@@ -88,8 +118,33 @@ public class ProfileActivity extends AppCompatActivity {
             imageView1.setImageResource(R.mipmap.ic_launcher);
             gallary1.addView(view);
 
+        }*/
+
+    }
+
+    private void replacefragment(Fragment fragment, Fragment ft) {
+        android.support.v4.app.FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        if(fragment ==homefragment){
+            fragmentTransaction.hide(historyfragment);
+
         }
 
+        else if(fragment== historyfragment){
+            fragmentTransaction.hide(homefragment);
+        }
+
+        fragmentTransaction.show(fragment);
+        fragmentTransaction.commit();
+
+    }
+
+    private void initializeFragment() {
+        android.support.v4.app.FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment,homefragment);
+        fragmentTransaction.add(R.id.fragment,historyfragment);
+
+        fragmentTransaction.hide(historyfragment);
+        fragmentTransaction.commit();
     }
 
 
