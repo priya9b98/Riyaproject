@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +39,7 @@ public class List_of_booksActivity extends AppCompatActivity {
     int j;
     int cacheupdate;
     Double userid;
+    Timestamp timestamp,timestamp1;
     String year1,year2;
     Integer number;
     File tempFile;
@@ -48,6 +51,7 @@ public class List_of_booksActivity extends AppCompatActivity {
         listView = findViewById(R.id.booklist);
         list = new ArrayList<>();
         list = null;
+        timestamp=null;
         cachedEntries=new ArrayList<>();
         cachedEntries=null;
         j = 0;
@@ -75,8 +79,20 @@ public class List_of_booksActivity extends AppCompatActivity {
             try {
                 cachedEntries = (List<Books>) Internalstorage.readObject(this, year1+year2);
                 if(cachedEntries!=null){
+                    timestamp1=(Timestamp)Internalstorage.readObject(this,"timestamp");
                     cacheupdate=updatecache(dynamoDBMapper);
-                }
+                    while(timestamp==null){ }
+                    if(timestamp.before(timestamp1)){
+                        cachedEntries=null;
+                        File dir = getFilesDir();
+                        File file = new File(dir, year1+year2);
+                        file.delete();
+                        Timestamp entries=new Timestamp(System.currentTimeMillis());
+                        Internalstorage.writeObject(this, "timestamp", entries);
+                        //writetotable(dynamoDBMapper,entries);
+
+                    }
+               }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -87,6 +103,22 @@ public class List_of_booksActivity extends AppCompatActivity {
         else {
             try {
                 cachedEntries = (List<Books>) Internalstorage.readObject(this, "4");
+                if(cachedEntries!=null){
+                    timestamp1=(Timestamp)Internalstorage.readObject(this,"timestamp");
+                    cacheupdate=updatecache(dynamoDBMapper);
+                    while(timestamp==null){ }
+                    if(timestamp.before(timestamp1)){
+                        cachedEntries=null;
+                        File dir = getFilesDir();
+                        File file = new File(dir, "4");
+                        file.delete();
+                        Timestamp entries=new Timestamp(System.currentTimeMillis());
+                        Internalstorage.writeObject(this, "timestamp", entries);
+                       // writetotable(dynamoDBMapper,entries);
+
+                    }
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -99,6 +131,9 @@ public class List_of_booksActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(cachedEntries==null){
+                    File dir = getFilesDir();
+                    File file = new File(dir, "timestamp");
+                    file.delete();
                 if (number == 1) {
                     try {
                         FindBookwithSpecifiedattribute(dynamoDBMapper, year2, year1);
@@ -116,6 +151,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                         {
                             ioe.printStackTrace();
                         }
+
 
                     }
                     catch (Exception e) {
@@ -171,6 +207,18 @@ public class List_of_booksActivity extends AppCompatActivity {
 
     }
 
+    private void writetotable(final DynamoDBMapper dynamoDBMapper, final Timestamp entries) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Lastid lastid=new Lastid();
+                lastid=dynamoDBMapper.load(Lastid.class,"Books");
+                lastid.setTimestamp(entries.toString());
+                dynamoDBMapper.save(lastid);
+            }
+        }).start();
+    }
+
     private int updatecache(final DynamoDBMapper dynamoDBMapper) {
         new Thread(new Runnable() {
             @Override
@@ -179,9 +227,10 @@ public class List_of_booksActivity extends AppCompatActivity {
                 lastid=dynamoDBMapper.load(Lastid.class,"Books");
                 String time= null;
                 time=lastid.getTimestamp();
-
-            }
+                timestamp=Timestamp.valueOf(time);
+                }
         }).start();
+
 
 
         return  0;

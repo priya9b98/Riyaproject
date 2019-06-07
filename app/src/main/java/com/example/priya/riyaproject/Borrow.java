@@ -1,6 +1,5 @@
 package com.example.priya.riyaproject;
 
-
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
@@ -12,25 +11,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@DynamoDBTable(tableName = "hungrymind-mobilehub-593518188-Borrowed")
+@DynamoDBTable(tableName = "hungrymind-mobilehub-593518188-BookBorrow")
 
-public class Borrowl {
-    private String _borrowID;
+public class Borrow {
+    private Double _borrowId;
     private String _actualRetDate;
-    private String _bookID;
-    private String _custID;
+    private Double _bookID;
+    private Double _custID;
     private String _dateClaimToRet;
     private String _dateOfBorrow;
+    private String _rating;
     private String _supplierID;
 
-    @DynamoDBHashKey(attributeName = "BorrowID")
-    @DynamoDBAttribute(attributeName = "BorrowID")
-    public String getBorrowID() {
-        return _borrowID;
+    @DynamoDBHashKey(attributeName = "BorrowId")
+    @DynamoDBAttribute(attributeName = "BorrowId")
+    public Double getBorrowId() {
+        return _borrowId;
     }
 
-    public void setBorrowID(final String _borrowID) {
-        this._borrowID = _borrowID;
+    public void setBorrowId(final Double _borrowId) {
+        this._borrowId = _borrowId;
     }
     @DynamoDBAttribute(attributeName = "ActualRetDate")
     public String getActualRetDate() {
@@ -41,19 +41,19 @@ public class Borrowl {
         this._actualRetDate = _actualRetDate;
     }
     @DynamoDBAttribute(attributeName = "BookID")
-    public String getBookID() {
+    public Double getBookID() {
         return _bookID;
     }
 
-    public void setBookID(final String _bookID) {
+    public void setBookID(final Double _bookID) {
         this._bookID = _bookID;
     }
     @DynamoDBAttribute(attributeName = "CustID")
-    public String getCustID() {
+    public Double getCustID() {
         return _custID;
     }
 
-    public void setCustID(final String _custID) {
+    public void setCustID(final Double _custID) {
         this._custID = _custID;
     }
     @DynamoDBAttribute(attributeName = "DateClaimToRet")
@@ -71,6 +71,14 @@ public class Borrowl {
 
     public void setDateOfBorrow(final String _dateOfBorrow) {
         this._dateOfBorrow = _dateOfBorrow;
+    }
+    @DynamoDBAttribute(attributeName = "Rating")
+    public String getRating() {
+        return _rating;
+    }
+
+    public void setRating(final String _rating) {
+        this._rating = _rating;
     }
     @DynamoDBAttribute(attributeName = "SupplierID")
     public String getSupplierID() {
