@@ -56,6 +56,7 @@ public class Homefragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 Intent iy=new Intent(getActivity(),SearchActivity.class);
                 iy.putExtra("userid",((ProfileActivity)getActivity()).userid);
+                iy.putExtra("email",((ProfileActivity)getActivity()).email);
 
                 startActivity(iy);
             }

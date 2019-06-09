@@ -32,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
     TextView name;
     //DynamoDBMapper dynamoDBMapper;
     Double userid;
+    String email;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setTitle("HungryMinds");
         Intent inty=getIntent();
         String name1=inty.getStringExtra("name");
+        email=inty.getStringExtra("email");
         userid=inty.getDoubleExtra("userid",0);
         name=(TextView)findViewById(R.id.profile_name);
         name.setText(name1);

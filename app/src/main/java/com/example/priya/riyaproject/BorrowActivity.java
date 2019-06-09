@@ -15,6 +15,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExp
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class BorrowActivity extends AppCompatActivity {
     TextView booname,pri,Total,caution,borrowd,returnd;
     Button confirm;
+    String cemail;
+    Double borrowid;
     DynamoDBMapper dynamoDBMapper;
 
     @Override
@@ -41,6 +44,7 @@ public class BorrowActivity extends AppCompatActivity {
                 .dynamoDBClient(dynamoDBClient)
                 .awsConfiguration(configuration)
                 .build();
+        borrowid=null;
 
 
         Bundle b=getIntent().getBundleExtra("bund");
@@ -51,6 +55,7 @@ public class BorrowActivity extends AppCompatActivity {
         final Double userid=b.getDouble("userid");
         final String borrowdate=b.getString("dateborrow");
         final String returndate=b.getString("returndate");
+        cemail=b.getString("email");
 
         String price=b.getString("price");
         borrowd=findViewById(R.id.bordat);
@@ -70,16 +75,17 @@ public class BorrowActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Borrow item=new Borrow();
-                item.setDateClaimToRet(returndate);
-                item.setDateOfBorrow(borrowdate);
-                item.setSupplierID("1");
-                item.setActualRetDate("null");
-                item.setCustID(userid);
-                item.setBookID(bookid);
-                item.setRating("0");
-                String h=Double.toString(userid).concat(Integer.toString(integer));
-                item.setBorrowId(Double.parseDouble(h));
+
+           getborrowid(dynamoDBMapper);
+           final RequestTableDO item=new RequestTableDO();
+           while(borrowid==null){}
+           item.setAccepted("pending");
+           item.setBookId(bookid);
+           item.setCustId(userid);
+           item.setCustEmail(cemail);
+           item.setDateClaimToRet(returndate);
+           item.setDateOfBorrow(borrowdate);
+           item.setRequestId(borrowid);
 
                 new Thread(new Runnable() {
                     @Override
@@ -91,5 +97,16 @@ public class BorrowActivity extends AppCompatActivity {
               //  Toast.makeText(getApplicationContext(),"booking done",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void getborrowid(final DynamoDBMapper dynamoDBMapper) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Lastid lastIdsDO=new Lastid();
+                lastIdsDO=dynamoDBMapper.load(Lastid.class,"Book_Borrow");
+                borrowid=lastIdsDO.getId()+1;
+            }
+        }).start();
     }
 }

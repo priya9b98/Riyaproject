@@ -38,6 +38,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     DynamoDBMapper dynamoDBMapper;
     ImageView rat;
     int k=0;
+    String cust_email;
     public List<Books> list;
     Bundle bundle;
     TextView user;
@@ -73,6 +74,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         Intent r=getIntent();
         list=new ArrayList<>();
         list=null;
+        cust_email=r.getStringExtra("email");
          userid=r.getDoubleExtra("userid",0);
          user.setText(userid.toString());
         searchView.setQueryHint("find books");
@@ -108,6 +110,8 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 Intent it= new Intent(SearchActivity.this,List_of_booksActivity.class);
                 it.putExtra("number",2);
                 it.putExtra("userid",userid);
+                it.putExtra("email",cust_email);
+
                 startActivity(it);
             }
         });
@@ -140,8 +144,10 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                             b.putString("rate",list1.get(0).getRating());
                             b.putString("price",list1.get(0).getPrice());
                             b.putDouble("userid",userid);
+                            b.putString("email",cust_email);
                             b.putDouble("bid",list1.get(0).getISBN());
                             intent1.putExtra("bund",b);
+
 
                             startActivity(intent1);
                         }
@@ -164,6 +170,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","1900");
             i.putExtra("year2","1800");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
 
@@ -174,6 +181,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","1920");
             i.putExtra("year2","1900");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
 
@@ -184,6 +192,8 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","1940");
             i.putExtra("year2","1920");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
+
            /* try {
                 FindBookwithSpecifiedattribute(dynamoDBMapper,"1940","1920");
               while(list==null) {k++;}
@@ -207,6 +217,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","1960");
             i.putExtra("year2","1940");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
 
@@ -217,6 +228,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","1980");
             i.putExtra("year2","1960");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
 
@@ -226,6 +238,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","2000");
             i.putExtra("year2","1980");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
         }
@@ -234,6 +247,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","2005");
             i.putExtra("year2","2000");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
 
@@ -243,6 +257,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","2010");
             i.putExtra("year2","2005");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
 
             startActivity(i);
 
@@ -252,6 +267,8 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
             i.putExtra("year","2015");
             i.putExtra("year2","2010");
             i.putExtra("userid",userid);
+            i.putExtra("email",cust_email);
+
             startActivity(i);
 
         }

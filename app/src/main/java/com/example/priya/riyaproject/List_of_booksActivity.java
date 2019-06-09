@@ -40,7 +40,7 @@ public class List_of_booksActivity extends AppCompatActivity {
     int cacheupdate;
     Double userid;
     Timestamp timestamp,timestamp1;
-    String year1,year2;
+    String year1,year2,Cust_email;
     Integer number;
     File tempFile;
 
@@ -70,6 +70,7 @@ public class List_of_booksActivity extends AppCompatActivity {
 
         year1 = null;
         Intent i = getIntent();
+        Cust_email=i.getStringExtra("email");
         userid = i.getDoubleExtra("userid", 0);
 
         number = i.getIntExtra("number", 9);
@@ -189,6 +190,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                                 b.putString("rate",cachedEntries.get(position).getRating());
                                 b.putString("price",cachedEntries.get(position).getPrice());
                                 b.putDouble("userid",userid);
+                                b.putString("email",Cust_email);
                                 b.putDouble("bid",cachedEntries.get(position).getISBN());
                                 it.putExtra("bund",b);
 
@@ -264,6 +266,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                 Bundle b=new Bundle();
                 b.putString("na",list.get(position).getBookName());
                 b.putDouble("userid",userid);
+                b.putString("email",Cust_email);
                 b.putDouble("bid",list.get(position).getISBN());
                 b.putString("image",list.get(position).getImageUrl());
                 b.putString("rate",list.get(position).getRating());
@@ -309,6 +312,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                 b.putString("rate",list.get(position).getRating());
                 b.putString("price",list.get(position).getPrice());
                 b.putDouble("userid",userid);
+                b.putString("email",Cust_email);
                 b.putDouble("bid",list.get(position).getISBN());
                 it.putExtra("bund",b);
 

@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Intent intent=new Intent(LoginActivity.this,ProfileActivity.class);
                                         intent.putExtra("name",finalCustomer.getCustName());
                                         intent.putExtra("userid",finalCustomer.getUserId());
+                                        intent.putExtra("email",finalCustomer.getCustEmail());
                                         startActivity(intent);
                                         Toast.makeText(getApplicationContext(),"right",Toast.LENGTH_SHORT).show();
                                     }
