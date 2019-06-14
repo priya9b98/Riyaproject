@@ -25,75 +25,24 @@
             android:layout_marginRight="27dp"
             android:text="NAME"
             android:textAlignment="center"
-            android:textSize="25sp"
+            android:textSize="5sp"
             android:textStyle="bold" />
 
-
-
-
     </RelativeLayout>
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/searchbtns"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/pro">
-
-        <Button
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:id="@+id/srchbook"
-            android:text="Search by books" />
-
-        <Button
-            android:layout_width="188dp"
-            android:id="@+id/srchstore"
-            android:layout_height="match_parent"
-            android:text="Search by store" />
-    </LinearLayout>
-
-    <TextView
+        android:layout_height="456dp"
+        app:layout_constraintTop_toBottomOf="@+id/pro"
+        android:id="@+id/fragment"
+        ></FrameLayout>
+    <android.support.design.widget.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Mostly Searched books"
-        app:layout_constraintTop_toBottomOf="@id/searchbtns"
-        android:id="@+id/visitedb"/>
-    <HorizontalScrollView
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:id="@+id/scroll1"
-        app:layout_constraintTop_toBottomOf="@+id/visitedb"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/gallary"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Previous borrowed books"
-        android:id="@+id/textborrow"
-        app:layout_constraintTop_toBottomOf="@+id/scroll1"/>
-
-    <HorizontalScrollView
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        app:layout_constraintTop_toBottomOf="@+id/textborrow"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/gallary1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
+        android:layout_height="50dp"
+        android:id="@+id/navigation"
+        app:layout_constraintTop_toBottomOf="@+id/fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom"></android.support.design.widget.BottomNavigationView>
 
 
 </android.support.constraint.ConstraintLayout>

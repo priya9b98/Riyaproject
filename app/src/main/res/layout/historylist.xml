@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/bookpic1"
+        android:layout_width="97dp"
+        android:layout_height="106dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Book_name"
+        android:textColor="#000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic1" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="rating"
+        android:id="@+id/t2"
+        app:layout_constraintTop_toBottomOf="@+id/t1"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="author"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/t3"
+        android:textColor="#000"
+
+        app:layout_constraintTop_toBottomOf="@+id/t2"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="borrow date"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/t4"
+        android:textColor="#000"
+        app:layout_constraintTop_toBottomOf="@+id/t3"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return date"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/t5"
+        android:textColor="#000"
+        app:layout_constraintTop_toBottomOf="@+id/t4"
+        app:layout_constraintLeft_toRightOf="@+id/bookpic1"/>
+
+    <Button
+        android:id="@+id/buttonrten"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="8dp"
+        android:text="Return"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/t3"
+        app:layout_constraintTop_toBottomOf="@+id/t1" />
+
+
+</android.support.constraint.ConstraintLayout>

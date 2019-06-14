@@ -88,7 +88,8 @@
         android:layout_height="wrap_content"
         android:text="userid"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="351dp" />
+        tools:layout_editor_absoluteY="351dp"
+        tools:ignore="MissingConstraints" />
 
 
 </android.support.constraint.ConstraintLayout>

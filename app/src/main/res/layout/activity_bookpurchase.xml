@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BookpurchaseActivity">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.constraint.ConstraintLayout>
 
     <ImageView
         android:id="@+id/bimage"
@@ -48,6 +51,7 @@
         android:id="@+id/horizontaline"
         android:layout_marginTop="25sp"
         android:background="#000" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
