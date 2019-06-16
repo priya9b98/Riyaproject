@@ -24,13 +24,20 @@ import com.amazonaws.mobile.client.AWSStartupResult;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileActivity extends AppCompatActivity {
   //  Button books,store;
   BottomNavigationView btm;
     Homefragment homefragment;
     Historyfragment historyfragment;
     TextView name;
-    //DynamoDBMapper dynamoDBMapper;
+    String k;
+    List<String> list11;
+    List<String> list12;
+
+    DynamoDBMapper dynamoDBMapper;
     Double userid;
     String email;
 
@@ -43,10 +50,20 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setTitle("HungryMinds");
         Intent inty=getIntent();
+        list11=new ArrayList<>();
+        list11=null;
+        list12=new ArrayList<>();
+        list12=null;
+
         String name1=inty.getStringExtra("name");
         email=inty.getStringExtra("email");
+        list11 = (ArrayList<String>) inty.getSerializableExtra("key1");
+        list12 = (ArrayList<String>) inty.getSerializableExtra("key2");
+       // fetchurls(dynamoDBMapper,list11);
         userid=inty.getDoubleExtra("userid",0);
         name=(TextView)findViewById(R.id.profile_name);
+        k=list12.get(1);
+      //  Double d=Double.parseDouble(list11.get(0));
         name.setText(name1);
         btm = findViewById(R.id.navigation);
         homefragment = new Homefragment();
@@ -72,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-   /*     AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+      AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
             @Override
             public void onComplete(AWSStartupResult awsStartupResult) {
                 AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient(AWSMobileClient.getInstance().getCredentialsProvider());
@@ -82,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 AWSMobileClient.getInstance().getConfiguration())
                         .build();
             }
-        }).execute();
+        }).execute();/*
 
         books=findViewById(R.id.srchbook);
         store=findViewById(R.id.srchstore);
@@ -122,6 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
             gallary1.addView(view);
 
         }*/
+
 
     }
 
@@ -165,12 +183,14 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent intent=new Intent(ProfileActivity.this,MainActivity.class);
                 startActivity(intent);
             case R.id.action_setting:
-                Toast.makeText(getApplicationContext(),"setting",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"setting",Toast.LENGTH_SHORT).show();
             default:
                 return false;
 
         }
     }
+
+
 
 
 

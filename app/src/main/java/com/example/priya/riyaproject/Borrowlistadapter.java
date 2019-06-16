@@ -55,15 +55,14 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
 
 
         final Double name=list.get(i).getBookID();
-        try{
-        findname(dynamoDBMapper,name);}
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        final String rate=list.get(i).getRating();
+        final Double rate=list.get(i).getRating();
         final String retDate=list.get(i).getActualRetDate();
         final String borrowdate=list.get(i).getDateOfBorrow();
-        bundle.putString("rate",list.get(i).getRating());
+        if(list.get(i).getRating()==null){
+            bundle.putDouble("rate",0.0);
+        }
+        else {
+        bundle.putDouble("rate",list.get(i).getRating());}
         bundle.putString("ARD",list.get(i).getActualRetDate());
         bundle.putString("returnclaim",list.get(i).getDateClaimToRet());
         bundle.putString("dateofborr",list.get(i).getDateOfBorrow());
@@ -72,10 +71,11 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
         bundle.putDouble("custid",list.get(i).getCustID());
         bundle.putString("supid",list.get(i).getSupplierID());
 
-        while (bname==null){}
         viewholder.setBook_name(name,i);
         viewholder.setdatb(borrowdate);
-        viewholder.setRat(rate);
+        if(rate==null){
+            viewholder.setRat("not rated");}
+            else {viewholder.setRat(rate.toString());}
         viewholder.setdatr(retDate,bundle);
 
 
@@ -83,7 +83,7 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 5;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
@@ -98,7 +98,7 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
         }
         public void setdatr(String da,Bundle bun){
             datr = mview.findViewById(R.id.t5);
-            if(da.equals("null")){
+            if(da.equals(null)){
              rturn=mview.findViewById(R.id.buttonrten);
              datr.setText("not returned");
              rturn.setVisibility(itemView.VISIBLE);
@@ -113,21 +113,25 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
             }
             else {
 //                rturn.setVisibility(itemView.INVISIBLE);
-
                 datr.setText(da);}
         }
         public void setBook_name(Double name,int position) {
             bookid = mview.findViewById(R.id.t1);
-            Integer a=(int) Math.round(name);
-            String na=a.toString();
-            bookid.setText(bname);
+            author=mview.findViewById(R.id.t3);
+            imageView=mview.findViewById(R.id.bookpic1);
+
+            //Integer a=(int) Math.round(name);
+            //String na=a.toString();
+            findname(dynamoDBMapper,name,bookid,author,imageView);
+
+         /*   bookid.setText(bname);
             author=mview.findViewById(R.id.t3);
             author.setText(bauthor);
             imageView=mview.findViewById(R.id.bookpic1);
             RequestOptions p=new RequestOptions();
             p.placeholder(R.mipmap.ic_launcher);
             Glide.with(mcontext).applyDefaultRequestOptions(p).load(bimage).into(imageView);
-
+*/
         }
 
        public void setdatb(String ph) {
@@ -143,17 +147,27 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
 
     }
 
-    private void findname(final DynamoDBMapper dynamoDBMapper, final Double name) {
+    private void findname(final DynamoDBMapper dynamoDBMapper, final Double name, TextView bookid, TextView author, ImageView imageView) {
+        bname=null;
+        bauthor=null;
+        bimage=null;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Books books=new Books();
                  books=dynamoDBMapper.load(Books.class,name);
-                if(books!=null){                bname=books.getBookName();
+                bname=books.getBookName();
                 bauthor=books.getAuthor();
                 bimage=books.getImageUrl();
-            }}
+            }
         }).start();
+        while(bimage==null){}
+        bookid.setText(bname);
+        author.setText(bauthor);
+        RequestOptions p=new RequestOptions();
+        p.placeholder(R.mipmap.ic_launcher);
+        Glide.with(mcontext).applyDefaultRequestOptions(p).load(bimage).into(imageView);
+
 
     }
 }

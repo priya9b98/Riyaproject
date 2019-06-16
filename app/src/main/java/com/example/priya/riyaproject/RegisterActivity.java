@@ -18,6 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
     DynamoDBMapper dynamoDBMapper;
     EditText name,password,phone,email,address;
     Button submit;
+    Double lastcustid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,35 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
                 .dynamoDBClient(dynamoDBClient)
                 .awsConfiguration(configuration)
                 .build();
-/*
-        InputStream is=getResources().openRawResource(R.raw.us);
-        BufferedReader reader=new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-        String line="";
-        try{
-            while((line=reader.readLine())!=null)
-            {
-                //Split by ,'s
-                String[] tokens=line.split(",");
-                //Read the data
-                Sample ss=new Sample();
-                ss.setFn(tokens[0]);
-                ss.setLn(tokens[1]);
-                ss.setAdd(tokens[2]);
-                ss.setCity(tokens[3]);
-                ss.setCoun(tokens[4]);
-                ss.setState(tokens[5]);
-                ss.setZip(tokens[6]);
-                ss.setPh(tokens[7]);
-                ss.setEmail(tokens[8]);
-                l.add(ss);
-            }
-            System.out.println(l.get(0).getFn()+" "+l.get(0).getAdd());
-        }
-        catch(Exception e){
-            System.out.println("ohhh");
-        }
-*/
 
+        lastcustid=null;
         System.out.println("executed properly");
         name=(EditText)findViewById(R.id.name);
         password=(EditText)findViewById(R.id.pass1);
@@ -81,38 +55,25 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
     public void createItem() {
+
+        checklastid(dynamoDBMapper);
+        while(lastcustid==null){}
         final CustomerTableDo Item = new CustomerTableDo();
-        String id="";
         // for(int i=0;i<500;i++) {
         String n = name.getText().toString();
         String e = email.getText().toString();
-        for(int i=0;i<e.length();i++){
-            int c=(int)e.charAt(i);
-            id=id.concat(Integer.toString(c));
-        }
+
         String p = password.getText().toString();
         String a = address.getText().toString();
         double num = (Double.parseDouble(phone.getText().toString()));
 
-            /*String n=l.get(i).getFn()+l.get(i).getLn();
-            String e=l.get(i).getEmail();
-            String p=l.get(i).getState()+l.get(i).getZip();
-            String a=l.get(i).getCity()+","+l.get(i).getCoun()+","+l.get(i).getState();
-            String inp=l.get(i).getPh();
-            String ff="";
-            for(int j=0;j<inp.length();j++)
-            {
-                if(inp.charAt(j)!='-')
-                    ff+=inp.charAt(j);
-            }
-             double num=Double.parseDouble(ff);
-             */
+
         Item.setCustName(n);
         Item.setCustEmail(e);
         Item.setCustNumber(num);
         Item.setCustPass(p);
+        Item.setUserId(lastcustid);
         Item.setCustAddress(a);
-        Item.setUserId(Double.parseDouble(id));
 
         new Thread(new Runnable() {
             @Override
@@ -125,6 +86,19 @@ public class RegisterActivity extends AppCompatActivity {
         }).start();
         //}
 
+    }
+
+    private void checklastid(final DynamoDBMapper dynamoDBMapper) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Lastid lastid=new Lastid();
+                lastid=dynamoDBMapper.load(Lastid.class,"Customer_table");
+                lastcustid=lastid.getId()+1;
+                lastid.setId(lastcustid);
+                dynamoDBMapper.save(lastid);
+            }
+        }).start();
     }
 }
 

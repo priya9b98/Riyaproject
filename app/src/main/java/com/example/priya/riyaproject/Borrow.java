@@ -11,7 +11,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@DynamoDBTable(tableName = "hungrymind-mobilehub-593518188-BookBorrow")
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+@DynamoDBTable(tableName = "hungrymind-mobilehub-593518188-Book_Borrow")
 
 public class Borrow {
     private Double _borrowId;
@@ -20,7 +31,7 @@ public class Borrow {
     private Double _custID;
     private String _dateClaimToRet;
     private String _dateOfBorrow;
-    private String _rating;
+    private Double _rating;
     private String _supplierID;
 
     @DynamoDBHashKey(attributeName = "BorrowId")
@@ -73,11 +84,11 @@ public class Borrow {
         this._dateOfBorrow = _dateOfBorrow;
     }
     @DynamoDBAttribute(attributeName = "Rating")
-    public String getRating() {
+    public Double getRating() {
         return _rating;
     }
 
-    public void setRating(final String _rating) {
+    public void setRating(final Double _rating) {
         this._rating = _rating;
     }
     @DynamoDBAttribute(attributeName = "SupplierID")

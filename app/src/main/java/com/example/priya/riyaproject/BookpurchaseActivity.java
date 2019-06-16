@@ -4,32 +4,42 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class BookpurchaseActivity extends AppCompatActivity {
     TextView bookna,rate1,descr,borrowdate,returndae;
     ImageView bookimag;
     Double bid1,userid;
-    Button btnborrow,btncart,Btnbdate,btnredate;
+    List<String> reclist;
+    Button btnborrow,Btnbdate,btnredate;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookpurchase);
+        reclist=new ArrayList<>();
+        reclist=null;
         final Bundle b = getIntent().getBundleExtra("bund");
-
+        reclist= (ArrayList<String>) getIntent().getSerializableExtra("key3");
         bid1=b.getDouble("bid");
         userid=b.getDouble("userid");
+        email=b.getString("email");
         final String bookn = b.getString("na");
         final String bimage = b.getString("image");
         final String brate = b.getString("rate");
@@ -47,7 +57,6 @@ public class BookpurchaseActivity extends AppCompatActivity {
         p.placeholder(R.mipmap.ic_launcher);
         Glide.with(getApplicationContext()).applyDefaultRequestOptions(p).load(bimage).into(bookimag);
         btnborrow = findViewById(R.id.borrow);
-        btncart = findViewById(R.id.btncart);
         btnborrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +71,29 @@ public class BookpurchaseActivity extends AppCompatActivity {
         });
 
         this.showDatepickerDialog();
+        LinearLayout gallary6=findViewById(R.id.gallary6);
+        LayoutInflater inflater1=LayoutInflater.from(BookpurchaseActivity.this);
+
+        for(int i=0;i<6;i++){
+            View view1=inflater1.inflate(R.layout.item_list1,gallary6,false);
+            TextView textView=view1.findViewById(R.id.textView);
+            textView.setText("item"+i);
+            ImageView imageView=view1.findViewById(R.id.images);
+            Picasso.with(this).load(reclist.get(i)).into(imageView);
+            final int finalI = i;
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(BookpurchaseActivity.this,BookDetails.class);
+                    intent.putExtra("imageurl",reclist.get(finalI));
+                    intent.putExtra("userid",userid);
+                    intent.putExtra("email",email);
+                    startActivity(intent);
+                }
+            });
+            imageView.setImageResource(R.mipmap.ic_launcher);
+            gallary6.addView(view1);}
+
     }
             private void showDatepickerDialog() {
                 Btnbdate = findViewById(R.id.btnbdate);

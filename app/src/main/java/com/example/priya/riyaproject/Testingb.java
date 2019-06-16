@@ -75,7 +75,7 @@ public class Testingb extends AppCompatActivity {
         setrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bor.setRating(giverate.getText().toString());
+                bor.setRating(Double.parseDouble(giverate.getText().toString()));
                 datr=getCurrentDate(v);
                 //Toast.makeText(Testingb.this,datr,Toast.LENGTH_SHORT).show();
                 bor.setActualRetDate(datr);

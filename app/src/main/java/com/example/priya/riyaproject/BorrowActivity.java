@@ -1,5 +1,6 @@
 package com.example.priya.riyaproject;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class BorrowActivity extends AppCompatActivity {
     TextView booname,pri,Total,caution,borrowd,returnd;
-    Button confirm;
+    Button confirm,homebtn;
     String cemail;
     Double borrowid;
     DynamoDBMapper dynamoDBMapper;
@@ -51,7 +52,9 @@ public class BorrowActivity extends AppCompatActivity {
         String name=b.getString("na");
         final Double bookid=b.getDouble("bid");
         final Integer integer=(int)Math.round(bookid);
+        final  String bookimage=b.getString("image");
 
+        homebtn=findViewById(R.id.homebtn);
         final Double userid=b.getDouble("userid");
         final String borrowdate=b.getString("dateborrow");
         final String returndate=b.getString("returndate");
@@ -72,6 +75,8 @@ public class BorrowActivity extends AppCompatActivity {
         confirm=findViewById(R.id.confirm);
      //   Total.setText(total);
 
+
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +86,7 @@ public class BorrowActivity extends AppCompatActivity {
            while(borrowid==null){}
            item.setAccepted("pending");
            item.setBookId(bookid);
+           item.setImageUrl(bookimage);
            item.setCustId(userid);
            item.setCustEmail(cemail);
            item.setDateClaimToRet(returndate);
@@ -106,6 +112,14 @@ public class BorrowActivity extends AppCompatActivity {
                 Lastid lastIdsDO=new Lastid();
                 lastIdsDO=dynamoDBMapper.load(Lastid.class,"Book_Borrow");
                 borrowid=lastIdsDO.getId()+1;
+                lastIdsDO.setId(lastIdsDO.getId()+1);
+                dynamoDBMapper.save(lastIdsDO);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(BorrowActivity.this,"order requested",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }).start();
     }

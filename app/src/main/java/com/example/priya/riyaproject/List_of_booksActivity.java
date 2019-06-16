@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class List_of_booksActivity extends AppCompatActivity {
     String genre;
     Button btn;
     List<Books> cachedEntries;
+    List<String> reclist;
     int j;
     int cacheupdate;
     Double userid;
@@ -51,6 +53,8 @@ public class List_of_booksActivity extends AppCompatActivity {
         listView = findViewById(R.id.booklist);
         list = new ArrayList<>();
         list = null;
+        reclist=new ArrayList<>();
+        reclist=null;
         timestamp=null;
         cachedEntries=new ArrayList<>();
         cachedEntries=null;
@@ -68,10 +72,13 @@ public class List_of_booksActivity extends AppCompatActivity {
             }
         }).execute();
 
+
         year1 = null;
         Intent i = getIntent();
         Cust_email=i.getStringExtra("email");
         userid = i.getDoubleExtra("userid", 0);
+         Integer integer=(int)Math.round(userid);
+         fetch("http://useruserfinal-env.xwik2y2dnd.us-east-1.elasticbeanstalk.com/api/"+integer.toString());
 
         number = i.getIntExtra("number", 9);
         if (number == 1) {
@@ -143,8 +150,8 @@ public class List_of_booksActivity extends AppCompatActivity {
                         {
                             FileOutputStream fos = openFileOutput(year1+year2, Context.MODE_PRIVATE);
                             ObjectOutputStream oos = new ObjectOutputStream(fos);
-                            ArrayList<Books>a=new ArrayList<>(list);
-                            oos.writeObject(a);
+                            List<Books> kj=new ArrayList<>(list);
+                            oos.writeObject(kj);
                             oos.close();
                             fos.close();
                         }
@@ -183,6 +190,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                                 Intent it= new Intent(List_of_booksActivity.this,BookpurchaseActivity.class);
                                 Bundle b=new Bundle();
                                 b.putString("na",cachedEntries.get(position).getBookName());
@@ -193,6 +201,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                                 b.putString("email",Cust_email);
                                 b.putDouble("bid",cachedEntries.get(position).getISBN());
                                 it.putExtra("bund",b);
+                                it.putExtra("key3", (Serializable) reclist);
 
                                 startActivity(it);
 
@@ -262,6 +271,7 @@ public class List_of_booksActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
                 Intent it= new Intent(List_of_booksActivity.this,BookpurchaseActivity.class);
                 Bundle b=new Bundle();
                 b.putString("na",list.get(position).getBookName());
@@ -272,6 +282,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                 b.putString("rate",list.get(position).getRating());
                 b.putString("price",list.get(position).getPrice());
                 it.putExtra("bund",b);
+                it.putExtra("key3", (Serializable) reclist);
                 startActivity(it);
 
             }
@@ -315,7 +326,7 @@ public class List_of_booksActivity extends AppCompatActivity {
                 b.putString("email",Cust_email);
                 b.putDouble("bid",list.get(position).getISBN());
                 it.putExtra("bund",b);
-
+                it.putExtra("key3", (Serializable) reclist);
                 startActivity(it);
 
             }
@@ -323,5 +334,12 @@ public class List_of_booksActivity extends AppCompatActivity {
 
 
     }
-}
+
+    private void fetch(String url) {
+        Fetchitem process = new Fetchitem(List_of_booksActivity.this,this);
+        process.execute();
+    }
+    public void setList(List<String> list) {
+        this.reclist = list;
+    }}
 

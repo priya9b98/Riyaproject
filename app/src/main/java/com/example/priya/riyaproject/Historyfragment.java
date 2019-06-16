@@ -86,9 +86,6 @@ public class Historyfragment extends android.support.v4.app.Fragment {
 
             }
         });
-
-
-
         return view;
     }
 
@@ -110,24 +107,6 @@ public class Historyfragment extends android.support.v4.app.Fragment {
         }).start();
     }
 
-    /*private void findbookbycustid(final DynamoDBMapper dynamoDBMapper, String us) {
-        Map<String, AttributeValue> es=new HashMap<>();
-        es.put(":val", new AttributeValue().withN(us));
-        final DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                .withFilterExpression("CustID = :val").withExpressionAttributeValues(es);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                List<Borrow> list2=dynamoDBMapper.scan(Borrow.class,scanExpression);
-                list=list2;
-
-            }
-        }).start();
-        while (list==null){j++;}
-        Borrowlistadapter la=new Borrowlistadapter(getActivity(), list);
-        listView.setAdapter(la);
-    }*/
 
 
 }
