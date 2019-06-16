@@ -28,7 +28,8 @@
         <activity android:name=".List_of_booksActivity" />
         <activity android:name=".BookpurchaseActivity" />
         <activity android:name=".BorrowActivity" />
-        <activity android:name=".Testingb"></activity>
+        <activity android:name=".Testingb" />
+        <activity android:name=".BookDetails"></activity>
     </application>
 
 </manifest>

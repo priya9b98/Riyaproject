@@ -83,7 +83,7 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 10;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
@@ -98,7 +98,7 @@ public class Borrowlistadapter extends RecyclerView.Adapter<Borrowlistadapter.Vi
         }
         public void setdatr(String da,Bundle bun){
             datr = mview.findViewById(R.id.t5);
-            if(da.equals(null)){
+            if(da.equals("null")){
              rturn=mview.findViewById(R.id.buttonrten);
              datr.setText("not returned");
              rturn.setVisibility(itemView.VISIBLE);
